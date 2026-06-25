@@ -1,0 +1,1084 @@
+# language
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لغتي هويتي — بيشوى سليمان</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1a2e;
+      --deep:      #16213e;
+      --gold:      #c9a84c;
+      --gold-lt:   #e8c97a;
+      --cream:     #fdf6e3;
+      --muted:     #6b7280;
+      --surface:   #ffffff;
+      --border:    #e5e0d5;
+      --red:       #c0392b;
+      --green:     #27ae60;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    /* ===== LOGIN PAGE ===== */
+    #login-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--ink) 0%, var(--deep) 60%, #0f3460 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    #login-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .login-card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 420px;
+      max-width: 95vw;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+      position: relative;
+      z-index: 1;
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .login-logo .icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .login-logo h1 {
+      font-family: 'Amiri', serif;
+      font-size: 28px;
+      color: var(--ink);
+      font-weight: 700;
+    }
+    .login-logo p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    .login-tabs { display: none; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--cream);
+      transition: border-color .2s;
+      outline: none;
+    }
+    .form-group input:focus { border-color: var(--gold); background: white; }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      color: var(--ink);
+      border: none;
+      border-radius: 10px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,168,76,0.4); }
+    .login-error {
+      background: #fdecea;
+      color: var(--red);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* ===== MAIN APP ===== */
+    #app { display: none; flex-direction: column; min-height: 100vh; }
+
+    /* Header */
+    .header {
+      background: var(--ink);
+      color: white;
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-logo span.icon { font-size: 24px; }
+    .header-logo h2 {
+      font-family: 'Amiri', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold-lt);
+    }
+    .header-nav { display: flex; gap: 4px; }
+    .nav-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .nav-btn:hover, .nav-btn.active { background: rgba(201,168,76,0.2); color: var(--gold-lt); }
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-badge {
+      background: rgba(201,168,76,0.2);
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold-lt);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .logout-btn {
+      padding: 6px 14px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.7);
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 13px;
+      transition: all .2s;
+    }
+    .logout-btn:hover { background: rgba(192,57,43,0.2); border-color: var(--red); color: #e74c3c; }
+
+    /* Content area */
+    .content { flex: 1; padding: 32px; max-width: 1300px; margin: 0 auto; width: 100%; }
+
+    /* ===== DASHBOARD PAGE ===== */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .page-title {
+      font-family: 'Amiri', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .page-subtitle { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: box-shadow .2s;
+    }
+    .stat-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .stat-icon.gold { background: rgba(201,168,76,0.15); }
+    .stat-icon.blue { background: rgba(52,152,219,0.15); }
+    .stat-icon.green { background: rgba(39,174,96,0.15); }
+    .stat-icon.red { background: rgba(192,57,43,0.12); }
+    .stat-info h3 { font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1; }
+    .stat-info p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* Dashboard grid */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+    }
+    .dash-card {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .dash-card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dash-card-header h3 { font-size: 16px; font-weight: 700; color: var(--ink); }
+    .dash-card-body { padding: 8px 0; }
+
+    /* Activity list */
+    .activity-item {
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      transition: background .15s;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-item:hover { background: var(--cream); }
+    .act-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      background: rgba(201,168,76,0.12);
+    }
+    .act-text { flex: 1; }
+    .act-text strong { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .act-text span { font-size: 12px; color: var(--muted); }
+    .act-time { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+    /* Quick actions */
+    .quick-actions { display: flex; flex-direction: column; gap: 0; }
+    .quick-action {
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .15s;
+      border: none;
+      background: transparent;
+      text-align: right;
+      width: 100%;
+      font-family: 'Cairo', sans-serif;
+    }
+    .quick-action:last-child { border-bottom: none; }
+    .quick-action:hover { background: rgba(201,168,76,0.06); }
+    .qa-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .qa-text strong { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .qa-text span { font-size: 12px; color: var(--muted); }
+    .qa-arrow { margin-right: auto; color: var(--muted); font-size: 12px; }
+
+    /* ===== VIDEOS & BOOKS PAGE ===== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .add-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      color: var(--ink);
+      border: none;
+      border-radius: 10px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s;
+    }
+    .add-btn:hover { transform: translateY(-1px); }
+
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .item-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .item-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .item-thumb {
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      background: linear-gradient(135deg, var(--ink), var(--deep));
+    }
+    .item-body { padding: 18px; }
+    .item-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .badge-grammar { background: rgba(39,174,96,0.12); color: var(--green); }
+    .badge-rhetoric { background: rgba(52,152,219,0.12); color: #2980b9; }
+    .badge-skills { background: rgba(155,89,182,0.12); color: #8e44ad; }
+    .badge-book { background: rgba(201,168,76,0.15); color: #a0832e; }
+    .badge-pdf { background: rgba(192,57,43,0.12); color: var(--red); }
+    .item-body h4 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; line-height: 1.4; }
+    .item-body p { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .item-actions { display: flex; gap: 8px; }
+    .item-btn {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all .15s;
+    }
+    .item-btn.primary { background: var(--ink); color: white; }
+    .item-btn.primary:hover { background: var(--deep); }
+    .item-btn.danger { background: rgba(192,57,43,0.1); color: var(--red); }
+    .item-btn.danger:hover { background: rgba(192,57,43,0.2); }
+
+    /* ===== USERS PAGE ===== */
+    .users-table-wrap {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--ink); color: white; }
+    thead th {
+      padding: 14px 20px;
+      text-align: right;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+    tbody tr:hover { background: var(--cream); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody td { padding: 14px 20px; font-size: 14px; color: var(--ink); }
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .user-cell { display: flex; align-items: center; gap: 12px; }
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-active { background: rgba(39,174,96,0.12); color: var(--green); }
+    .status-inactive { background: rgba(107,114,128,0.12); color: var(--muted); }
+    .role-admin { background: rgba(201,168,76,0.15); color: #a0832e; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .role-user { background: rgba(52,152,219,0.12); color: #2980b9; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .tbl-btn { padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 600; margin-left: 4px; transition: all .15s; }
+    .tbl-btn.edit { background: rgba(52,152,219,0.1); color: #2980b9; }
+    .tbl-btn.del { background: rgba(192,57,43,0.1); color: var(--red); }
+    .tbl-btn:hover { opacity: 0.8; }
+
+    /* ===== SETTINGS PAGE ===== */
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .settings-card {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+    .settings-card h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .setting-row { margin-bottom: 18px; }
+    .setting-row label { display: block; font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+    .setting-row input, .setting-row textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--cream);
+      outline: none;
+      transition: border-color .2s;
+      resize: vertical;
+    }
+    .setting-row input:focus, .setting-row textarea:focus { border-color: var(--gold); background: white; }
+    .save-btn {
+      padding: 10px 24px;
+      background: var(--ink);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+      margin-top: 4px;
+    }
+    .save-btn:hover { background: var(--deep); }
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-label strong { display: block; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .toggle-label span { font-size: 12px; color: var(--muted); }
+    .toggle {
+      width: 44px;
+      height: 24px;
+      background: var(--border);
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      transition: background .2s;
+      border: none;
+      flex-shrink: 0;
+    }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border-radius: 50%;
+      top: 3px;
+      right: 3px;
+      transition: transform .2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .toggle.on { background: var(--gold); }
+    .toggle.on::after { transform: translateX(-20px); }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 36px;
+      width: 500px;
+      max-width: 95vw;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .modal-header h3 { font-size: 20px; font-weight: 700; color: var(--ink); }
+    .modal-close { width: 32px; height: 32px; border: none; background: var(--cream); border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+    .modal-close:hover { background: var(--border); }
+    .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+    .btn-cancel { padding: 10px 20px; background: var(--cream); border: 1px solid var(--border); color: var(--ink); border-radius: 8px; cursor: pointer; font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 600; }
+    .btn-submit { padding: 10px 24px; background: var(--ink); color: white; border: none; border-radius: 8px; cursor: pointer; font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700; }
+    .btn-submit:hover { background: var(--deep); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 300;
+      transition: transform .3s;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { background: var(--green); }
+    .toast.error { background: var(--red); }
+
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .dash-grid { grid-template-columns: 1fr; }
+      .items-grid { grid-template-columns: repeat(2,1fr); }
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .content { padding: 20px 16px; }
+      .header { padding: 0 16px; }
+      .header-nav { display: none; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .items-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div id="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="icon">📖</span>
+      <h1>لُغَتي هُوِيَّتي</h1>
+      <p>منصة تعليمية متكاملة للغة العربية · بيشوى سليمان</p>
+    </div>
+
+    <div id="login-error" class="login-error">❌ بيانات الدخول غير صحيحة. حاول مجدداً.</div>
+
+    <div class="form-group">
+      <label>البريد الإلكتروني</label>
+      <input type="email" id="login-email" placeholder="admin@lughati.com" />
+    </div>
+    <div class="form-group">
+      <label>كلمة المرور</label>
+      <input type="password" id="login-pass" placeholder="••••••••" />
+    </div>
+    <button class="login-btn" onclick="doLogin()">دخول للمنصة ←</button>
+
+
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="app">
+  <header class="header">
+    <div class="header-logo">
+      <span class="icon">📖</span>
+      <h2>لغتي هويتي</h2>
+    </div>
+    <nav class="header-nav">
+      <button class="nav-btn active" onclick="showPage('dashboard',this)">لوحة التحكم</button>
+      <button class="nav-btn" onclick="showPage('videos',this)">الفيديوهات</button>
+      <button class="nav-btn" onclick="showPage('books',this)">الكتب والملفات</button>
+      <button class="nav-btn" onclick="showPage('users',this)">المستخدمون</button>
+      <button class="nav-btn" onclick="showPage('settings',this)">الإعدادات</button>
+    </nav>
+    <div class="header-user">
+      <span class="user-badge" id="user-role-badge">مدير</span>
+      <button class="logout-btn" onclick="doLogout()">خروج</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page active">
+      <h1 class="page-title">لوحة التحكم</h1>
+      <p class="page-subtitle">مرحباً بك — إليك نظرة عامة على المنصة</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon gold">🎬</div>
+          <div class="stat-info"><h3 id="stat-videos">3</h3><p>فيديو تعليمي</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">📚</div>
+          <div class="stat-info"><h3 id="stat-books">4</h3><p>كتاب وملف PDF</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">👥</div>
+          <div class="stat-info"><h3>12</h3><p>مستخدم مسجل</p></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">👁️</div>
+          <div class="stat-info"><h3>248</h3><p>مشاهدة هذا الأسبوع</p></div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3>⏱️ آخر الأنشطة</h3>
+          </div>
+          <div class="dash-card-body">
+            <div class="activity-item"><div class="act-icon">🎬</div><div class="act-text"><strong>تمت إضافة فيديو "مقدمة في النحو العربي"</strong><span>د. أحمد فؤاد · نحو وصرف</span></div><span class="act-time">منذ ساعة</span></div>
+            <div class="activity-item"><div class="act-icon">📗</div><div class="act-text"><strong>كتاب "قواعد اللغة العربية الميسرة" متاح</strong><span>ابن هشام الأنصاري</span></div><span class="act-time">أمس</span></div>
+            <div class="activity-item"><div class="act-icon">👤</div><div class="act-text"><strong>انضم مستخدم جديد: سارة محمود</strong><span>طالبة</span></div><span class="act-time">قبل يومين</span></div>
+            <div class="activity-item"><div class="act-icon">📕</div><div class="act-text"><strong>إضافة "منهج تعليم النحو" PDF</strong><span>ملف PDF</span></div><span class="act-time">قبل 3 أيام</span></div>
+            <div class="activity-item"><div class="act-icon">🎬</div><div class="act-text"><strong>فيديو "أسرار البلاغة العربية" يتصدر المشاهدات</strong><span>د. سامية حسين</span></div><span class="act-time">هذا الأسبوع</span></div>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h3>⚡ إجراءات سريعة</h3>
+          </div>
+          <div class="dash-card-body">
+            <div class="quick-actions">
+              <button class="quick-action" onclick="showPage('videos', document.querySelectorAll('.nav-btn')[1]); openModal('add-video-modal')">
+                <div class="qa-icon" style="background:rgba(201,168,76,0.12)">🎬</div>
+                <div class="qa-text"><strong>إضافة فيديو جديد</strong><span>رفع محتوى تعليمي</span></div>
+                <span class="qa-arrow">←</span>
+              </button>
+              <button class="quick-action" onclick="showPage('books', document.querySelectorAll('.nav-btn')[2]); openModal('add-book-modal')">
+                <div class="qa-icon" style="background:rgba(52,152,219,0.12)">📚</div>
+                <div class="qa-text"><strong>إضافة كتاب أو PDF</strong><span>توسيع المكتبة</span></div>
+                <span class="qa-arrow">←</span>
+              </button>
+              <button class="quick-action" onclick="showPage('users', document.querySelectorAll('.nav-btn')[3])">
+                <div class="qa-icon" style="background:rgba(39,174,96,0.12)">👥</div>
+                <div class="qa-text"><strong>إدارة المستخدمين</strong><span>12 مستخدم مسجل</span></div>
+                <span class="qa-arrow">←</span>
+              </button>
+              <button class="quick-action" onclick="showPage('settings', document.querySelectorAll('.nav-btn')[4])">
+                <div class="qa-icon" style="background:rgba(155,89,182,0.12)">⚙️</div>
+                <div class="qa-text"><strong>إعدادات المنصة</strong><span>تخصيص الموقع</span></div>
+                <span class="qa-arrow">←</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div id="page-videos" class="page">
+      <div class="section-header">
+        <div>
+          <h1 class="page-title">🎬 مكتبة الفيديوهات</h1>
+          <p class="page-subtitle">إدارة الفيديوهات التعليمية المنشورة</p>
+        </div>
+        <button class="add-btn" onclick="openModal('add-video-modal')">+ إضافة فيديو</button>
+      </div>
+      <div class="items-grid" id="videos-grid">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- BOOKS -->
+    <div id="page-books" class="page">
+      <div class="section-header">
+        <div>
+          <h1 class="page-title">📚 مكتبة الكتب والملفات</h1>
+          <p class="page-subtitle">إدارة الكتب وملفات PDF المتاحة للطلاب</p>
+        </div>
+        <button class="add-btn" onclick="openModal('add-book-modal')">+ إضافة كتاب / PDF</button>
+      </div>
+      <div class="items-grid" id="books-grid">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div id="page-users" class="page">
+      <div class="section-header">
+        <div>
+          <h1 class="page-title">👥 إدارة المستخدمين</h1>
+          <p class="page-subtitle">عرض وإدارة حسابات الأعضاء المسجلين</p>
+        </div>
+        <button class="add-btn" onclick="openModal('add-user-modal')">+ إضافة مستخدم</button>
+      </div>
+      <div class="users-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>المستخدم</th>
+              <th>البريد الإلكتروني</th>
+              <th>الدور</th>
+              <th>الحالة</th>
+              <th>تاريخ الانضمام</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="users-tbody">
+            <!-- filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="page-settings" class="page">
+      <h1 class="page-title">⚙️ إعدادات المنصة</h1>
+      <p class="page-subtitle">تخصيص المنصة وضبط التفضيلات</p>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h3>🌐 معلومات المنصة</h3>
+          <div class="setting-row"><label>اسم المنصة</label><input type="text" value="لغتي هويتي" /></div>
+          <div class="setting-row"><label>اسم المطور / المالك</label><input type="text" value="بيشوى سليمان" /></div>
+          <div class="setting-row"><label>وصف المنصة</label><textarea rows="3">منصة تعليمية متكاملة للغة العربية</textarea></div>
+          <button class="save-btn" onclick="showToast('تم حفظ التغييرات بنجاح','success')">حفظ التغييرات</button>
+        </div>
+        <div class="settings-card">
+          <h3>🔒 الأمان والوصول</h3>
+          <div class="setting-row"><label>كلمة المرور الحالية</label><input type="password" placeholder="••••••••" /></div>
+          <div class="setting-row"><label>كلمة المرور الجديدة</label><input type="password" placeholder="••••••••" /></div>
+          <div class="setting-row"><label>تأكيد كلمة المرور</label><input type="password" placeholder="••••••••" /></div>
+          <button class="save-btn" onclick="showToast('تم تحديث كلمة المرور','success')">تحديث كلمة المرور</button>
+        </div>
+        <div class="settings-card">
+          <h3>🔔 الإشعارات والتفضيلات</h3>
+          <div class="toggle-row"><div class="toggle-label"><strong>إشعار عند انضمام مستخدم جديد</strong><span>يصلك بريد إلكتروني تلقائياً</span></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="toggle-row"><div class="toggle-label"><strong>إشعار عند إضافة محتوى</strong><span>تتبع إضافات المحتوى</span></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="toggle-row"><div class="toggle-label"><strong>تفعيل التسجيل للأعضاء الجدد</strong><span>السماح للطلاب بإنشاء حسابات</span></div><button class="toggle on" onclick="this.classList.toggle('on')"></button></div>
+          <div class="toggle-row"><div class="toggle-label"><strong>وضع الصيانة</strong><span>إخفاء المنصة مؤقتاً</span></div><button class="toggle" onclick="this.classList.toggle('on')"></button></div>
+        </div>
+        <div class="settings-card">
+          <h3>📊 إحصائيات المنصة</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px">
+            <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-size:14px">إجمالي الفيديوهات</span><strong id="set-stat-v">3</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-size:14px">إجمالي الكتب والملفات</span><strong id="set-stat-b">4</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-size:14px">المستخدمون النشطون</span><strong>10</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:12px 0"><span style="color:var(--muted);font-size:14px">إجمالي المشاهدات</span><strong>248</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<!-- ===== MODALS ===== -->
+
+<!-- Add Video -->
+<div class="modal-overlay" id="add-video-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🎬 إضافة فيديو جديد</h3>
+      <button class="modal-close" onclick="closeModal('add-video-modal')">✕</button>
+    </div>
+    <div class="form-group"><label>عنوان الفيديو *</label><input type="text" id="v-title" placeholder="مقدمة في النحو العربي" /></div>
+    <div class="form-group"><label>اسم المقدم / المدرس</label><input type="text" id="v-author" placeholder="د. أحمد فؤاد" /></div>
+    <div class="form-group"><label>رابط الفيديو (YouTube)</label><input type="url" id="v-url" placeholder="https://youtube.com/..." /></div>
+    <div class="form-group">
+      <label>التصنيف</label>
+      <select id="v-cat" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:Cairo,sans-serif;font-size:14px;background:var(--cream);outline:none">
+        <option value="grammar">نحو وصرف</option>
+        <option value="rhetoric">بلاغة</option>
+        <option value="skills">مهارات لغوية</option>
+        <option value="literature">أدب عربي</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('add-video-modal')">إلغاء</button>
+      <button class="btn-submit" onclick="addVideo()">إضافة الفيديو</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Book -->
+<div class="modal-overlay" id="add-book-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>📚 إضافة كتاب أو PDF</h3>
+      <button class="modal-close" onclick="closeModal('add-book-modal')">✕</button>
+    </div>
+    <div class="form-group"><label>اسم الكتاب / الملف *</label><input type="text" id="b-title" placeholder="قواعد اللغة العربية الميسرة" /></div>
+    <div class="form-group"><label>المؤلف</label><input type="text" id="b-author" placeholder="ابن هشام الأنصاري" /></div>
+    <div class="form-group">
+      <label>النوع</label>
+      <select id="b-type" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:Cairo,sans-serif;font-size:14px;background:var(--cream);outline:none">
+        <option value="book">كتاب</option>
+        <option value="pdf">ملف PDF</option>
+      </select>
+    </div>
+    <div class="form-group"><label>رابط الملف (اختياري)</label><input type="url" id="b-url" placeholder="https://..." /></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('add-book-modal')">إلغاء</button>
+      <button class="btn-submit" onclick="addBook()">إضافة</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add User -->
+<div class="modal-overlay" id="add-user-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>👤 إضافة مستخدم جديد</h3>
+      <button class="modal-close" onclick="closeModal('add-user-modal')">✕</button>
+    </div>
+    <div class="form-group"><label>الاسم الكامل *</label><input type="text" id="u-name" placeholder="أحمد محمد" /></div>
+    <div class="form-group"><label>البريد الإلكتروني *</label><input type="email" id="u-email" placeholder="ahmed@email.com" /></div>
+    <div class="form-group">
+      <label>الدور</label>
+      <select id="u-role" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:Cairo,sans-serif;font-size:14px;background:var(--cream);outline:none">
+        <option value="user">طالب / عضو</option>
+        <option value="admin">مدير</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('add-user-modal')">إلغاء</button>
+      <button class="btn-submit" onclick="addUser()">إضافة المستخدم</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+let videos = [
+  { id:1, title:'مقدمة في النحو العربي', author:'د. أحمد فؤاد', cat:'grammar', icon:'🎬' },
+  { id:2, title:'فن الإلقاء والخطابة', author:'أ. مصطفى كمال', cat:'skills', icon:'🎙️' },
+  { id:3, title:'أسرار البلاغة العربية', author:'د. سامية حسين', cat:'rhetoric', icon:'✍️' },
+];
+let books = [
+  { id:1, title:'قواعد اللغة العربية الميسرة', author:'ابن هشام الأنصاري', type:'book', icon:'📗' },
+  { id:2, title:'منهج تعليم النحو', author:'ملف PDF', type:'pdf', icon:'📕' },
+  { id:3, title:'فصيح الكلام وصحيحه', author:'ثعلب', type:'book', icon:'📘' },
+  { id:4, title:'محاضرات في اللسانيات', author:'ملف PDF', type:'pdf', icon:'📙' },
+];
+let users = [
+  { id:1, name:'بيشوى سليمان', email:'admin@lughati.com', role:'admin', status:'active', date:'يناير 2025' },
+  { id:2, name:'سارة محمود', email:'sara@email.com', role:'user', status:'active', date:'مارس 2025' },
+  { id:3, name:'أحمد خالد', email:'ahmed@email.com', role:'user', status:'active', date:'أبريل 2025' },
+  { id:4, name:'منى حسين', email:'mona@email.com', role:'user', status:'inactive', date:'مايو 2025' },
+  { id:5, name:'يوسف عادل', email:'youssef@email.com', role:'user', status:'active', date:'يونيو 2025' },
+];
+
+const catLabels = { grammar:'نحو وصرف', rhetoric:'بلاغة', skills:'مهارات لغوية', literature:'أدب عربي' };
+const catClass = { grammar:'badge-grammar', rhetoric:'badge-rhetoric', skills:'badge-skills', literature:'badge-skills' };
+
+// ===== LOGIN =====
+const ADMIN_EMAIL = 'beshosolmian@gmail.com';
+
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('login-pass').value.trim();
+  const err   = document.getElementById('login-error');
+
+  if (!email || !pass) { err.style.display = 'block'; err.textContent = '❌ يرجى إدخال البريد الإلكتروني وكلمة المرور.'; return; }
+
+  const isAdmin = (email === ADMIN_EMAIL);
+
+  err.style.display = 'none';
+  document.getElementById('login-page').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  if (isAdmin) {
+    // Full admin — show everything
+    document.getElementById('user-role-badge').textContent = 'مدير';
+    document.querySelectorAll('.nav-btn').forEach(b => b.style.display = '');
+    document.querySelectorAll('.add-btn').forEach(b => b.style.display = '');
+    document.querySelectorAll('.item-btn.danger').forEach(b => b.style.display = '');
+    document.querySelectorAll('.tbl-btn').forEach(b => b.style.display = '');
+    document.querySelector('[onclick*="page-users"]') && null;
+  } else {
+    // Member — hide admin controls
+    document.getElementById('user-role-badge').textContent = 'عضو';
+    // Hide admin nav items
+    const navBtns = document.querySelectorAll('.nav-btn');
+    navBtns.forEach(b => {
+      if (b.textContent.includes('المستخدمون') || b.textContent.includes('الإعدادات') || b.textContent.includes('لوحة التحكم')) {
+        b.style.display = 'none';
+      }
+    });
+    // Hide add/delete buttons
+    document.querySelectorAll('.add-btn').forEach(b => b.style.display = 'none');
+    // Navigate to videos page
+    showPage('videos', navBtns[1]);
+  }
+
+  renderAll();
+
+  // After render, hide member-inaccessible buttons
+  if (!isAdmin) {
+    document.querySelectorAll('.item-btn.danger').forEach(b => b.style.display = 'none');
+    document.querySelectorAll('.tbl-btn').forEach(b => b.style.display = 'none');
+  }
+}
+document.getElementById('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-page').style.display = 'flex';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pass').value = '';
+}
+
+// ===== NAVIGATION =====
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+// ===== RENDER =====
+function renderAll() { renderVideos(); renderBooks(); renderUsers(); updateStats(); }
+
+function renderVideos() {
+  const g = document.getElementById('videos-grid');
+  g.innerHTML = videos.map(v => `
+    <div class="item-card">
+      <div class="item-thumb">${v.icon}</div>
+      <div class="item-body">
+        <span class="item-badge ${catClass[v.cat]||'badge-grammar'}">${catLabels[v.cat]||v.cat}</span>
+        <h4>${v.title}</h4>
+        <p>${v.author}</p>
+        <div class="item-actions">
+          <button class="item-btn primary">▶ مشاهدة</button>
+          <button class="item-btn danger" onclick="deleteItem('video',${v.id})">🗑</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderBooks() {
+  const g = document.getElementById('books-grid');
+  g.innerHTML = books.map(b => `
+    <div class="item-card">
+      <div class="item-thumb">${b.icon}</div>
+      <div class="item-body">
+        <span class="item-badge ${b.type==='pdf'?'badge-pdf':'badge-book'}">${b.type==='pdf'?'PDF':'كتاب'}</span>
+        <h4>${b.title}</h4>
+        <p>${b.author}</p>
+        <div class="item-actions">
+          <button class="item-btn primary">📖 فتح</button>
+          <button class="item-btn danger" onclick="deleteItem('book',${b.id})">🗑</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderUsers() {
+  document.getElementById('users-tbody').innerHTML = users.map(u => `
+    <tr>
+      <td><div class="user-cell"><div class="user-avatar">${u.name[0]}</div><strong>${u.name}</strong></div></td>
+      <td>${u.email}</td>
+      <td><span class="${u.role==='admin'?'role-admin':'role-user'}">${u.role==='admin'?'مدير':'طالب'}</span></td>
+      <td><span class="status-badge ${u.status==='active'?'status-active':'status-inactive'}">${u.status==='active'?'نشط':'غير نشط'}</span></td>
+      <td>${u.date}</td>
+      <td>
+        <button class="tbl-btn edit">تعديل</button>
+        <button class="tbl-btn del" onclick="deleteUser(${u.id})">حذف</button>
+      </td>
+    </tr>`).join('');
+}
+
+function updateStats() {
+  document.getElementById('stat-videos').textContent = videos.length;
+  document.getElementById('stat-books').textContent = books.length;
+  document.getElementById('set-stat-v').textContent = videos.length;
+  document.getElementById('set-stat-b').textContent = books.length;
+}
+
+// ===== ADD / DELETE =====
+function addVideo() {
+  const t = document.getElementById('v-title').value.trim();
+  if(!t) { showToast('يرجى إدخال عنوان الفيديو','error'); return; }
+  const icons = {grammar:'🎬',rhetoric:'✍️',skills:'🎙️',literature:'📜'};
+  const cat = document.getElementById('v-cat').value;
+  videos.push({ id: Date.now(), title:t, author:document.getElementById('v-author').value||'غير محدد', cat, icon:icons[cat]||'🎬' });
+  closeModal('add-video-modal');
+  document.getElementById('v-title').value=''; document.getElementById('v-author').value=''; document.getElementById('v-url').value='';
+  renderVideos(); updateStats();
+  showToast('تم إضافة الفيديو بنجاح ✓','success');
+}
+function addBook() {
+  const t = document.getElementById('b-title').value.trim();
+  if(!t) { showToast('يرجى إدخال اسم الكتاب','error'); return; }
+  const type = document.getElementById('b-type').value;
+  const icons = {book:['📗','📘','📙','📒'], pdf:['📕','📄']};
+  const icon = icons[type][Math.floor(Math.random()*icons[type].length)];
+  books.push({ id: Date.now(), title:t, author:document.getElementById('b-author').value||'غير محدد', type, icon });
+  closeModal('add-book-modal');
+  document.getElementById('b-title').value=''; document.getElementById('b-author').value='';
+  renderBooks(); updateStats();
+  showToast('تم إضافة الكتاب بنجاح ✓','success');
+}
+function addUser() {
+  const n = document.getElementById('u-name').value.trim();
+  const e = document.getElementById('u-email').value.trim();
+  if(!n||!e) { showToast('يرجى تعبئة الاسم والبريد الإلكتروني','error'); return; }
+  const role = document.getElementById('u-role').value;
+  users.push({ id: Date.now(), name:n, email:e, role, status:'active', date:'يونيو 2025' });
+  closeModal('add-user-modal');
+  document.getElementById('u-name').value=''; document.getElementById('u-email').value='';
+  renderUsers();
+  showToast('تم إضافة المستخدم بنجاح ✓','success');
+}
+function deleteItem(type, id) {
+  if(type==='video') { videos = videos.filter(v=>v.id!==id); renderVideos(); }
+  else { books = books.filter(b=>b.id!==id); renderBooks(); }
+  updateStats();
+  showToast('تم الحذف','success');
+}
+function deleteUser(id) {
+  users = users.filter(u=>u.id!==id);
+  renderUsers();
+  showToast('تم حذف المستخدم','success');
+}
+
+// ===== MODAL =====
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+
+// ===== TOAST =====
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
